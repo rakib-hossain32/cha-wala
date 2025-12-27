@@ -1,0 +1,161 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap");
+
+@import "tailwindcss/preflight";
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Background Colors */
+    --color-background: #fff8dc; /* cornsilk - warm cream canvas */
+    --color-foreground: #2c1810; /* dark brown - primary text */
+    --color-card: #f5f5dc; /* beige - subtle surface */
+    --color-card-foreground: #2c1810; /* dark brown */
+    --color-popover: #ffffff; /* white */
+    --color-popover-foreground: #2c1810; /* dark brown */
+
+    /* Muted Colors */
+    --color-muted: #f5f5dc; /* beige */
+    --color-muted-foreground: #5d4037; /* brown - secondary text */
+
+    /* Border & Input */
+    --color-border: #d4a574; /* tan - warm borders */
+    --color-input: #f5f5dc; /* beige */
+    --color-ring: #8b4513; /* saddle brown */
+
+    /* Primary - Rich Tea Brown */
+    --color-primary: #8b4513; /* saddle brown */
+    --color-primary-foreground: #ffffff; /* white */
+
+    /* Secondary - Warm Spice */
+    --color-secondary: #d2691e; /* chocolate */
+    --color-secondary-foreground: #ffffff; /* white */
+
+    /* Accent - Fresh Tea Leaf */
+    --color-accent: #228b22; /* forest green */
+    --color-accent-foreground: #ffffff; /* white */
+
+    /* Destructive/Error */
+    --color-destructive: #cd5c5c; /* indian red */
+    --color-destructive-foreground: #ffffff; /* white */
+    --color-error: #cd5c5c; /* indian red */
+    --color-error-foreground: #ffffff; /* white */
+
+    /* Success */
+    --color-success: #32cd32; /* lime green */
+    --color-success-foreground: #ffffff; /* white */
+
+    /* Warning */
+    --color-warning: #ff8c00; /* dark orange */
+    --color-warning-foreground: #ffffff; /* white */
+
+    /* Conversion Accent */
+    --color-conversion: #ff6b35; /* orange red */
+    --color-conversion-foreground: #ffffff; /* white */
+
+    /* Trust Builder */
+    --color-trust: #2f4f2f; /* dark olive green */
+    --color-trust-foreground: #ffffff; /* white */
+
+    /* Brand Tan */
+    --color-brand-tan: #d4a574; /* tan */
+    --color-brand-tan-foreground: #2c1810; /* dark brown */
+
+    /* Spacing & Layout */
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Noto Serif Bengali", "Poppins", serif;
+  }
+
+  body {
+    font-family: "Inter", "Noto Serif Bengali", sans-serif;
+  }
+
+  button {
+    font-family: "Poppins", sans-serif;
+  }
+
+  .accent-text {
+    font-family: "Kalam", cursive;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Steam Animation */
+  @keyframes steam-rise {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(-20px) scale(1.1);
+      opacity: 0;
+    }
+  }
+
+  .animate-steam {
+    animation: steam-rise 4s ease-in-out infinite;
+  }
+
+  /* Cultural Pattern Morphing */
+  @keyframes pattern-morph {
+    0%,
+    100% {
+      clip-path: circle(50% at 50% 50%);
+    }
+    50% {
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+  }
+
+  .animate-pattern-morph {
+    animation: pattern-morph 6s ease-in-out infinite;
+  }
+
+  /* Hover Lift Effect */
+  .hover-lift {
+    transition:
+      transform 300ms ease-out,
+      box-shadow 300ms ease-out;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(139, 69, 19, 0.15);
+  }
+
+  /* Cultural Transition */
+  .cultural-transition {
+    transition: all 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
