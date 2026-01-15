@@ -1,7 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
-import Icon from "@/components/ui/AppIcon";
+
+import Icon from "../../../components/ui/AppIcon";
 
 interface SocialLink {
   name: string;
@@ -52,7 +53,7 @@ export default function SocialConnect({ links }: SocialConnectProps) {
         আমাদের সাথে যুক্ত হন
       </h3>
       <p className="text-sm font-heading text-muted-foreground mb-6">
-        Connect With Us
+        আমাদের সাথে সোশ্যাল মাধ্যমে সংযোগ করুন
       </p>
 
       <div className="grid grid-cols-2 gap-4">
@@ -67,7 +68,7 @@ export default function SocialConnect({ links }: SocialConnectProps) {
               {link.nameBengali}
             </span>
             <span className="text-xs font-heading text-muted-foreground">
-              {link.name}
+              {/* English network name removed per language change */}
             </span>
           </button>
         ))}

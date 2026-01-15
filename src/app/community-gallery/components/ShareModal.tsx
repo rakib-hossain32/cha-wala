@@ -1,7 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
-import Icon from "@/components/ui/AppIcon";
+
+import Icon from "../../../components/ui/AppIcon";
 
 interface ShareModalProps {
   isOpen: boolean;
@@ -69,9 +70,6 @@ const ShareModal = ({ isOpen, onClose, itemTitle }: ShareModalProps) => {
             <h3 className="font-bengali text-xl font-bold text-foreground">
               শেয়ার করুন
             </h3>
-            <p className="font-heading text-sm text-muted-foreground">
-              Share this moment
-            </p>
           </div>
           <button
             onClick={onClose}
@@ -95,14 +93,9 @@ const ShareModal = ({ isOpen, onClose, itemTitle }: ShareModalProps) => {
               `}
             >
               <Icon name={platform.icon as any} size={24} />
-              <div className="flex flex-col items-start">
-                <span className="font-bengali text-sm font-semibold">
-                  {platform.nameBengali}
-                </span>
-                <span className="font-heading text-xs opacity-90">
-                  {platform.name}
-                </span>
-              </div>
+              <span className="font-bengali text-sm font-semibold">
+                {platform.nameBengali}
+              </span>
             </a>
           ))}
         </div>
@@ -110,7 +103,7 @@ const ShareModal = ({ isOpen, onClose, itemTitle }: ShareModalProps) => {
         {/* Copy Link */}
         <div className="p-4 bg-muted rounded-xl">
           <label className="font-bengali text-sm font-semibold text-foreground mb-2 block">
-            লিংক কপি করুন • Copy Link
+            লিংক কপি করুন
           </label>
           <div className="flex items-center space-x-2">
             <input
@@ -122,7 +115,7 @@ const ShareModal = ({ isOpen, onClose, itemTitle }: ShareModalProps) => {
             <button
               onClick={handleCopyLink}
               className={`
-                px-4 py-2 rounded-lg font-heading font-semibold cultural-transition
+                px-4 py-2 rounded-lg font-bengali font-semibold cultural-transition
                 ${
                   copied
                     ? "bg-success text-success-foreground"
@@ -130,7 +123,7 @@ const ShareModal = ({ isOpen, onClose, itemTitle }: ShareModalProps) => {
                 }
               `}
             >
-              {copied ? "Copied!" : "Copy"}
+              {copied ? "কপি হয়েছে!" : "কপি করুন"}
             </button>
           </div>
         </div>

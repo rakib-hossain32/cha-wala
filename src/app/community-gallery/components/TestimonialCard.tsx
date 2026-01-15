@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
-import AppImage from "@/components/ui/AppImage";
-import Icon from "@/components/ui/AppIcon";
+import AppImage from "../../../components/ui/AppImage";
+import Icon from "../../../components/ui/AppIcon";
 
 interface Testimonial {
   id: number;
@@ -46,9 +46,6 @@ const TestimonialCard = ({ testimonial }: TestimonialCardProps) => {
         <p className="font-bengali text-base text-foreground leading-relaxed mb-3">
           "{testimonial.testimonialBengali}"
         </p>
-        <p className="font-heading text-sm text-muted-foreground leading-relaxed italic">
-          "{testimonial.testimonial}"
-        </p>
       </div>
 
       {/* Author Info */}
@@ -65,11 +62,8 @@ const TestimonialCard = ({ testimonial }: TestimonialCardProps) => {
           <h4 className="font-bengali text-base font-bold text-foreground">
             {testimonial.nameBengali}
           </h4>
-          <p className="font-heading text-sm text-muted-foreground">
-            {testimonial.name}
-          </p>
           <p className="font-bengali text-xs text-muted-foreground mt-1">
-            {testimonial.roleBengali} • {testimonial.role}
+            {testimonial.roleBengali}
           </p>
         </div>
 

@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
-import Header from "@/components/common/Header";
+﻿import type { Metadata } from "next";
+
 import CommunityGalleryInteractive from "./components/CommunityGalleryInteractive";
 
 export const metadata: Metadata = {
-  title: "Community Gallery - Chai Token",
+  title: "কমিউনিটি - চা ওয়ালা",
   description:
-    "Explore authentic moments, testimonials, and cultural stories from our chai-loving community. Share your own chai experiences and connect with fellow tea enthusiasts.",
+    "আমাদের চা-প্রেমী কমিউনিটির খাঁটি মুহূর্ত, প্রশংসাপত্র এবং সাংস্কৃতিক গল্প অন্বেষণ করুন। আপনার নিজস্ব চা অভিজ্ঞতা শেয়ার করুন এবং সহকর্মী চা উৎসাহীদের সাথে সংযুক্ত হন।",
 };
 
 export default function CommunityGalleryPage() {
   return (
     <>
-      <Header />
+    
       <main className="pt-16">
         <CommunityGalleryInteractive />
       </main>

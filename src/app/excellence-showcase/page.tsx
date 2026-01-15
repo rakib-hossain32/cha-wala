@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
-import Header from "@/components/common/Header";
+﻿import type { Metadata } from "next";
+
 import ExcellenceShowcaseInteractive from "./components/ExcellenceShowcaseInteractive";
 
 export const metadata: Metadata = {
-  title: "Excellence Showcase - Chai Token",
+  title: "উৎকর্ষতা - চা ওয়ালা",
   description:
-    "Discover our commitment to quality through organic ingredients, traditional preparation methods, and certified excellence. Learn about our trusted suppliers and authentic Bengali tea culture.",
+    "জৈব উপাদান, ঐতিহ্যবাহী প্রস্তুতি পদ্ধতি এবং প্রত্যয়িত উৎকর্ষতার মাধ্যমে আমাদের মান প্রতিশ্রুতি আবিষ্কার করুন। আমাদের বিশ্বস্ত সরবরাহকারী এবং খাঁটি বাংলার চা সংস্কৃতি সম্পর্কে জানুন।",
 };
 
 export default function ExcellenceShowcasePage() {
   return (
     <>
-      <Header />
+    
       <ExcellenceShowcaseInteractive />
     </>
   );

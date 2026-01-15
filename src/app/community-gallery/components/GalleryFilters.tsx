@@ -1,7 +1,6 @@
-"use client";
+﻿"use client";
 
-import Icon from "@/components/ui/AppIcon";
-
+import Icon from "../../../components/ui/AppIcon";
 interface GalleryFiltersProps {
   activeFilter: string;
   onFilterChange: (filter: string) => void;
@@ -45,14 +44,9 @@ const GalleryFilters = ({
           `}
         >
           <Icon name={filter.icon as any} size={20} />
-          <div className="flex flex-col items-start">
-            <span className="font-bengali font-semibold text-sm">
-              {filter.label}
-            </span>
-            <span className="font-heading text-xs opacity-80">
-              {filter.labelEn}
-            </span>
-          </div>
+          <span className="font-bengali font-semibold text-sm">
+            {filter.label}
+          </span>
         </button>
       ))}
     </div>

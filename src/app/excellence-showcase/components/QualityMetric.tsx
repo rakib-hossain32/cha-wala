@@ -1,4 +1,4 @@
-interface QualityMetricProps {
+﻿interface QualityMetricProps {
   icon: string;
   titleEnglish: string;
   titleBengali: string;
@@ -25,15 +25,9 @@ export default function QualityMetric({
           <h3 className="font-bengali text-lg font-semibold text-foreground mb-1">
             {titleBengali}
           </h3>
-          <p className="font-heading text-sm text-muted-foreground mb-2">
-            {titleEnglish}
-          </p>
           <div className="text-2xl font-bold text-primary mb-2">{value}</div>
           <p className="font-bengali text-sm text-foreground/80 mb-1">
             {descriptionBengali}
-          </p>
-          <p className="font-body text-xs text-muted-foreground">
-            {description}
           </p>
         </div>
       </div>

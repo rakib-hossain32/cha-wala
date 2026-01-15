@@ -1,7 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
-import Icon from "@/components/ui/AppIcon";
+
+import Icon from "../../../components/ui/AppIcon";
 
 interface WhatsAppConnectProps {
   phoneNumber: string;
@@ -42,7 +43,7 @@ export default function WhatsAppConnect({
             হোয়াটসঅ্যাপে অর্ডার করুন
           </h3>
           <p className="text-sm font-heading text-white opacity-90 mb-4">
-            Order via WhatsApp for Quick Service
+            দ্রুত সেবার জন্য হোয়াটসঅ্যাপে অর্ডার করুন
           </p>
           <button
             onClick={handleWhatsAppClick}

@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
-import AppImage from "@/components/ui/AppImage";
-import Icon from "@/components/ui/AppIcon";
+import AppImage from "../../../components/ui/AppImage";
+import Icon from "../../../components/ui/AppIcon";
 
 interface GalleryItem {
   id: number;
@@ -99,18 +99,12 @@ const GalleryCard = ({ item, onShare, onLike }: GalleryCardProps) => {
           <h3 className="font-bengali text-lg font-bold text-foreground mb-1">
             {item.titleBengali}
           </h3>
-          <p className="font-heading text-sm text-muted-foreground">
-            {item.title}
-          </p>
         </div>
 
         {showDetails && (
           <div className="mb-4 p-4 bg-muted rounded-lg cultural-transition">
             <p className="font-bengali text-sm text-foreground mb-2 leading-relaxed">
               {item.descriptionBengali}
-            </p>
-            <p className="font-heading text-xs text-muted-foreground leading-relaxed">
-              {item.description}
             </p>
           </div>
         )}
@@ -120,9 +114,6 @@ const GalleryCard = ({ item, onShare, onLike }: GalleryCardProps) => {
           <div className="flex flex-col">
             <span className="font-bengali text-sm font-semibold text-foreground">
               {item.authorBengali}
-            </span>
-            <span className="font-heading text-xs text-muted-foreground">
-              {item.author}
             </span>
           </div>
 

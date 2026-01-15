@@ -1,14 +1,16 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Icon from "@/components/ui/AppIcon";
+
+import Icon from "../../../components/ui/AppIcon";
 import QualityMetric from "./QualityMetric";
 import SupplierCard from "./SupplierCard";
 import PreparationStep from "./PreparationStep";
 import CertificationBadge from "./CertificationBadge";
 import TestimonialCard from "./TestimonialCard";
 import IngredientOriginMap from "./IngredientOriginMap";
+import FeedbackModal from "../../hero-gateway/components/FeedbackModal";
 
 interface QualityMetricData {
   icon: string;
@@ -53,6 +55,7 @@ interface CertificationData {
 }
 
 interface TestimonialData {
+  _id?: string;
   name: string;
   nameBengali: string;
   role: string;
@@ -78,9 +81,33 @@ export default function ExcellenceShowcaseInteractive() {
   const [activeTab, setActiveTab] = useState<
     "quality" | "suppliers" | "preparation"
   >("quality");
+  const [testimonials, setTestimonials] = useState<TestimonialData[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loadingTestimonials, setLoadingTestimonials] = useState(true);
+
+  const fetchData = async () => {
+    try {
+      setLoadingTestimonials(true);
+      const res = await fetch("/api/testimonials");
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setTestimonials(data.map(item => ({
+          ...item,
+          testimonial: item.testimonial || item.quoteEnglish || "",
+          testimonialBengali: item.testimonialBengali || item.quoteBengali || "",
+          alt: item.nameBengali
+        })));
+      }
+    } catch (err) {
+      console.error("Failed to fetch testimonials", err);
+    } finally {
+      setLoadingTestimonials(false);
+    }
+  };
 
   useEffect(() => {
     setIsHydrated(true);
+    fetchData();
   }, []);
 
   const qualityMetrics: QualityMetricData[] = [
@@ -90,7 +117,7 @@ export default function ExcellenceShowcaseInteractive() {
       titleBengali: "জৈব উপাদান",
       value: "100%",
       description:
-        "All our tea leaves and spices are sourced from certified organic farms",
+        "আমাদের সমস্ত চা পাতা এবং মসলা প্রত্যয়িত জৈব খামার থেকে সংগ্রহ করা হয়",
       descriptionBengali:
         "আমাদের সমস্ত চা পাতা এবং মসলা প্রত্যয়িত জৈব খামার থেকে সংগ্রহ করা হয়",
     },
@@ -99,7 +126,7 @@ export default function ExcellenceShowcaseInteractive() {
       titleEnglish: "Fresh Preparation",
       titleBengali: "তাজা প্রস্তুতি",
       value: "< 5 মিনিট",
-      description: "Every cup is prepared fresh within 5 minutes of ordering",
+      description: "প্রতিটি কাপ অর্ডারের ৫ মিনিটের মধ্যে তাজা প্রস্তুত করা হয়",
       descriptionBengali:
         "প্রতিটি কাপ অর্ডারের ৫ মিনিটের মধ্যে তাজা প্রস্তুত করা হয়",
     },
@@ -108,7 +135,7 @@ export default function ExcellenceShowcaseInteractive() {
       titleEnglish: "Customer Satisfaction",
       titleBengali: "গ্রাহক সন্তুষ্টি",
       value: "98.5%",
-      description: "Based on over 10,000 customer reviews and feedback",
+      description: "১০,০০০+ গ্রাহক পর্যালোচনা এবং প্রতিক্রিয়ার উপর ভিত্তি করে",
       descriptionBengali:
         "১০,০০০+ গ্রাহক পর্যালোচনা এবং প্রতিক্রিয়ার উপর ভিত্তি করে",
     },
@@ -118,7 +145,7 @@ export default function ExcellenceShowcaseInteractive() {
       titleBengali: "মান পরীক্ষা",
       value: "প্রতিদিন",
       description:
-        "Daily quality checks ensure consistent taste and safety standards",
+        "দৈনিক মান পরীক্ষা সামঞ্জস্যপূর্ণ স্বাদ এবং নিরাপত্তা মান নিশ্চিত করে",
       descriptionBengali:
         "দৈনিক মান পরীক্ষা সামঞ্জস্যপূর্ণ স্বাদ এবং নিরাপত্তা মান নিশ্চিত করে",
     },
@@ -166,14 +193,14 @@ export default function ExcellenceShowcaseInteractive() {
   const preparationSteps: PreparationStepData[] = [
     {
       step: 1,
-      titleEnglish: "Water Boiling",
+      titleEnglish: "পানি ফুটানো",
       titleBengali: "পানি ফুটানো",
       description:
-        "Pure filtered water is brought to precise boiling temperature for optimal extraction",
+        "সর্বোত্তম নিষ্কাশনের জন্য বিশুদ্ধ ফিল্টার করা পানি সঠিক ফুটন্ত তাপমাত্রায় আনা হয়",
       descriptionBengali:
         "সর্বোত্তম নিষ্কাশনের জন্য বিশুদ্ধ ফিল্টার করা পানি সঠিক ফুটন্ত তাপমাত্রায় আনা হয়",
       icon: "💧",
-      time: "2 minutes",
+      time: "২ মিনিট",
       timeBengali: "২ মিনিট",
     },
     {
@@ -181,7 +208,7 @@ export default function ExcellenceShowcaseInteractive() {
       titleEnglish: "Tea Infusion",
       titleBengali: "চা মিশ্রণ",
       description:
-        "Premium tea leaves are added with perfect timing for rich flavor development",
+        "সমৃদ্ধ স্বাদ বিকাশের জন্য নিখুঁত সময়ে প্রিমিয়াম চা পাতা যোগ করা হয়",
       descriptionBengali:
         "সমৃদ্ধ স্বাদ বিকাশের জন্য নিখুঁত সময়ে প্রিমিয়াম চা পাতা যোগ করা হয়",
       icon: "🍃",
@@ -193,7 +220,7 @@ export default function ExcellenceShowcaseInteractive() {
       titleEnglish: "Spice Addition",
       titleBengali: "মসলা যোগ",
       description:
-        "Fresh ground spices are carefully measured and added for authentic taste",
+        "খাঁটি স্বাদের জন্য তাজা গুঁড়া মসলা সাবধানে পরিমাপ করে যোগ করা হয়",
       descriptionBengali:
         "খাঁটি স্বাদের জন্য তাজা গুঁড়া মসলা সাবধানে পরিমাপ করে যোগ করা হয়",
       icon: "🌶️",
@@ -236,17 +263,17 @@ export default function ExcellenceShowcaseInteractive() {
       year: "2020",
     },
     {
-      name: "Food Safety Excellence",
+      name: "খাদ্য নিরাপত্তা উৎকর্ষতা",
       nameBengali: "খাদ্য নিরাপত্তা উৎকর্ষতা",
-      issuer: "Bangladesh Food Safety Authority",
+      issuer: "বাংলাদেশ খাদ্য নিরাপত্তা কর্তৃপক্ষ",
       issuerBengali: "বাংলাদেশ খাদ্য নিরাপত্তা কর্তৃপক্ষ",
       icon: "🛡️",
       year: "2021",
     },
     {
-      name: "Quality Management",
+      name: "মান ব্যবস্থাপনা",
       nameBengali: "মান ব্যবস্থাপনা",
-      issuer: "ISO 9001:2015 Certified",
+      issuer: "আইএসও ৯০०१:२०१৫ প্রত্যয়িত",
       issuerBengali: "আইএসও ৯০০১:২০১৫ প্রত্যয়িত",
       icon: "⭐",
       year: "2022",
@@ -258,50 +285,6 @@ export default function ExcellenceShowcaseInteractive() {
       issuerBengali: "ফেয়ার ট্রেড বাংলাদেশ",
       icon: "♻️",
       year: "2023",
-    },
-  ];
-
-  const testimonials: TestimonialData[] = [
-    {
-      name: "Rahul Sharma",
-      nameBengali: "রাহুল শর্মা",
-      role: "Tea Consultant",
-      roleBengali: "চা পরামর্শদাতা",
-      testimonial:
-        "চাই টোকেনের চা প্রস্তুতির মান এবং উপাদানের গুণমান অসাধারণ। প্রতিটি কাপে খাঁটি বাংলার স্বাদ পাওয়া যায়।",
-      testimonialBengali:
-        "চাই টোকেনের চা প্রস্তুতির মান এবং উপাদানের গুণমান অসাধারণ। প্রতিটি কাপে খাঁটি বাংলার স্বাদ পাওয়া যায়।",
-      image:
-        "https://img.rocket.new/generatedImages/rocket_gen_img_1c1f09ffa-1763296911571.png",
-      alt: "Professional South Asian man in his 40s with short black hair wearing blue shirt smiling at camera",
-      rating: 5,
-    },
-    {
-      name: "Priya Das",
-      nameBengali: "প্রিয়া দাস",
-      role: "Food Blogger",
-      roleBengali: "খাদ্য ব্লগার",
-      testimonial:
-        "জৈব উপাদান এবং ঐতিহ্যবাহী প্রস্তুতি পদ্ধতির সমন্বয় চাই টোকেনকে অনন্য করে তুলেছে। সত্যিই প্রশংসনীয়!",
-      testimonialBengali:
-        "জৈব উপাদান এবং ঐতিহ্যবাহী প্রস্তুতি পদ্ধতির সমন্বয় চাই টোকেনকে অনন্য করে তুলেছে। সত্যিই প্রশংসনীয়!",
-      image: "https://images.unsplash.com/photo-1652396944757-ad27b62b33f6",
-      alt: "Young Indian woman with long dark hair in casual attire smiling warmly at camera outdoors",
-      rating: 5,
-    },
-    {
-      name: "Ahmed Khan",
-      nameBengali: "আহমেদ খান",
-      role: "Regular Customer",
-      roleBengali: "নিয়মিত গ্রাহক",
-      testimonial:
-        "প্রতিদিন সকালে চাই টোকেনের চা ছাড়া আমার দিন শুরু হয় না। স্বাদ এবং মান সবসময় একই থাকে।",
-      testimonialBengali:
-        "প্রতিদিন সকালে চাই টোকেনের চা ছাড়া আমার দিন শুরু হয় না। স্বাদ এবং মান সবসময় একই থাকে।",
-      image:
-        "https://img.rocket.new/generatedImages/rocket_gen_img_1de396b82-1763296323320.png",
-      alt: "Middle-aged Bangladeshi man with beard wearing traditional kurta smiling confidently",
-      rating: 5,
     },
   ];
 
@@ -353,31 +336,64 @@ export default function ExcellenceShowcaseInteractive() {
     );
   }
 
+  const expertTestimonials: TestimonialData[] = [
+    {
+      name: "Dr. Anish Chowdhury",
+      nameBengali: "ডাঃ অনিশ চৌধুরী",
+      role: "Nutrition Specialist",
+      roleBengali: "পুষ্টি বিশেষজ্ঞ",
+      testimonial:
+        "The organic sourcing methods used by Cha Wala ensure that every cup is packed with antioxidants while maintaining zero chemical residue. It's a healthy choice for daily consumption.",
+      testimonialBengali:
+        "চা ওয়ালা-র ব্যবহৃত জৈব সংগ্রহের পদ্ধতি নিশ্চিত করে যে প্রতিটি কাপ অ্যান্টিঅক্সিডেন্টে ভরপুর এবং রাসায়নিক অবশিষ্টাংশ মুক্ত। এটি দৈনন্দিন পানের জন্য একটি স্বাস্থ্যকর পছন্দ।",
+      image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d",
+      alt: "Dr. Anish Chowdhury",
+      rating: 5,
+    },
+    {
+      name: "Sanjana Ahmed",
+      nameBengali: "সানজানা আহমেদ",
+      role: "Professional Tea Sommelier",
+      roleBengali: "পেশাদার চা বিশেষজ্ঞ",
+      testimonial:
+        "I am impressed by the precision in their preparation. The timing of infusion and the temperature control perfectly bring out the complex notes of the Sylhet tea leaves.",
+      testimonialBengali:
+        "তাদের প্রস্তুতির নিখুঁততা দেখে আমি মুগ্ধ। মিশ্রণের সময় এবং তাপমাত্রা নিয়ন্ত্রণ সিলেটের চা পাতার জটিল বৈশিষ্ট্যগুলোকে চমৎকারভাবে ফুটিয়ে তোলে।",
+      image: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5",
+      alt: "Sanjana Ahmed",
+      rating: 5,
+    },
+    {
+      name: "Chef Rakibul Hasan",
+      nameBengali: "শেফ রাকিবুল হাসান",
+      role: "Executive Chef",
+      roleBengali: "এক্সিকিউটিভ শেফ",
+      testimonial:
+        "The spice ratio in their signature chai is a masterpiece. It strikes the perfect balance between the warmth of cardamom and the subtle kick of ginger without overpowering the tea itself.",
+      testimonialBengali:
+        "তাদের সিগনেচার চায়ে মসলার অনুপাত একটি মাস্টারপিস। এটি চায়ের স্বাদকে ছাপিয়ে না গিয়ে এলাচের উষ্ণতা এবং আদার সূক্ষ্ম স্বাদের মধ্যে নিখুঁত ভারসাম্য তৈরি করে।",
+      image: "https://images.unsplash.com/photo-1583394828560-197621cc52de",
+      alt: "Chef Rakibul Hasan",
+      rating: 5,
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/10 pt-24 pb-16">
+      <section className="relative bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/10 pt-28 pb-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <div className="inline-block bg-primary/10 text-primary px-4 py-2 rounded-full font-heading text-sm font-semibold mb-6">
-              🏆 মান ও উৎকর্ষতা | Quality & Excellence
+              🏆 মান ও উৎকর্ষতা
             </div>
             <h1 className="font-bengali text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
               আমাদের মানের প্রতিশ্রুতি
             </h1>
-            <p className="font-heading text-xl md:text-2xl text-muted-foreground mb-6">
-              Our Commitment to Quality
-            </p>
             <p className="font-bengali text-lg text-foreground/80 mb-4 leading-relaxed">
               প্রতিটি কাপ চায়ে আমরা নিশ্চিত করি সর্বোচ্চ মান, খাঁটি স্বাদ এবং
-              ঐতিহ্যবাহী প্রস্তুতি পদ্ধতি। \ আমাদের উৎকর্ষতার যাত্রা শুরু হয়
+              ঐতিহ্যবাহী প্রস্তুতি পদ্ধতি। আমাদের উৎকর্ষতার যাত্রা শুরু হয়
               সেরা উপাদান নির্বাচন থেকে এবং শেষ হয় আপনার সন্তুষ্টিতে।
-            </p>
-            <p className="font-body text-base text-muted-foreground leading-relaxed">
-              In every cup of tea, we ensure the highest quality, authentic
-              taste, and traditional preparation methods. \ Our journey of
-              excellence begins with selecting the finest ingredients and ends
-              with your satisfaction.
             </p>
           </div>
         </div>
@@ -390,9 +406,6 @@ export default function ExcellenceShowcaseInteractive() {
             <h2 className="font-bengali text-3xl md:text-4xl font-bold text-foreground mb-3">
               মানের সূচক
             </h2>
-            <p className="font-heading text-lg text-muted-foreground">
-              Quality Indicators
-            </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {qualityMetrics.map((metric, index) => (
@@ -408,36 +421,33 @@ export default function ExcellenceShowcaseInteractive() {
           <div className="flex flex-wrap justify-center gap-4 mb-12">
             <button
               onClick={() => setActiveTab("quality")}
-              className={`px-6 py-3 rounded-lg font-heading font-semibold cultural-transition ${
+              className={`px-6 py-3 rounded-lg font-bengali font-semibold cultural-transition ${
                 activeTab === "quality"
                   ? "bg-primary text-primary-foreground"
                   : "bg-card text-foreground hover:bg-muted"
               }`}
             >
               <span className="font-bengali block mb-1">মান প্রত্যয়ন</span>
-              <span className="text-sm">Quality Certifications</span>
             </button>
             <button
               onClick={() => setActiveTab("suppliers")}
-              className={`px-6 py-3 rounded-lg font-heading font-semibold cultural-transition ${
+              className={`px-6 py-3 rounded-lg  font-semibold cultural-transition font-bengali ${
                 activeTab === "suppliers"
                   ? "bg-primary text-primary-foreground"
                   : "bg-card text-foreground hover:bg-muted"
               }`}
             >
               <span className="font-bengali block mb-1">সরবরাহকারী</span>
-              <span className="text-sm">Our Suppliers</span>
             </button>
             <button
               onClick={() => setActiveTab("preparation")}
-              className={`px-6 py-3 rounded-lg font-heading font-semibold cultural-transition ${
+              className={`px-6 py-3 rounded-lg font-semibold cultural-transition font-bengali ${
                 activeTab === "preparation"
                   ? "bg-primary text-primary-foreground"
                   : "bg-card text-foreground hover:bg-muted"
               }`}
             >
               <span className="font-bengali block mb-1">প্রস্তুতি পদ্ধতি</span>
-              <span className="text-sm">Preparation Method</span>
             </button>
           </div>
 
@@ -475,34 +485,87 @@ export default function ExcellenceShowcaseInteractive() {
       </section>
 
       {/* Expert Testimonials */}
-      <section className="py-16 bg-card/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="font-bengali text-3xl md:text-4xl font-bold text-foreground mb-3">
+      <section className="py-20 bg-gradient-to-b from-card/50 to-background overflow-hidden">
+        <div className="container mx-auto px-4 relative">
+          {/* Decorative Elements */}
+          <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-64 h-64 bg-primary/5 rounded-full blur-3xl invisible md:visible" />
+          <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/3 w-64 h-64 bg-accent/5 rounded-full blur-3xl invisible md:visible" />
+
+          <div className="text-center mb-16 relative">
+            <h2 className="font-bengali text-4xl md:text-5xl font-bold text-foreground mb-4">
               বিশেষজ্ঞদের মতামত
             </h2>
-            <p className="font-heading text-lg text-muted-foreground">
-              Expert Testimonials
+            <div className="w-24 h-1 bg-primary mx-auto rounded-full mb-6" />
+            <p className="font-bengali text-lg text-muted-foreground max-w-2xl mx-auto">
+              খাদ্য ও পুষ্টি খাতের অভিজ্ঞ ব্যক্তিরা আমাদের চায়ের মান সম্পর্কে যা বলেন
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {testimonials.map((testimonial, index) => (
-              <TestimonialCard key={index} {...testimonial} />
+
+          <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
+            {expertTestimonials.map((testimonial, index) => (
+              <div 
+                key={index} 
+                className="group bg-card p-8 rounded-3xl border border-border shadow-warm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+              >
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="relative w-16 h-16 rounded-2xl overflow-hidden shadow-lg group-hover:scale-110 transition-transform duration-500">
+                    <img 
+                      src={testimonial.image} 
+                      alt={testimonial.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-bengali text-xl font-bold text-foreground">{testimonial.nameBengali}</h3>
+                    <p className="font-bengali text-sm text-primary font-semibold">{testimonial.roleBengali}</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Icon key={i} name="StarIcon" size={16} className="text-yellow-500 fill-yellow-500" />
+                  ))}
+                </div>
+
+                <p className="font-bengali text-foreground/80 leading-relaxed italic relative">
+                  <span className="absolute -top-4 -left-2 text-4xl text-primary/10 font-serif">"</span>
+                  {testimonial.testimonialBengali}
+                  <span className="absolute -bottom-8 -right-2 text-4xl text-primary/10 font-serif">"</span>
+                </p>
+              </div>
             ))}
+          </div>
+
+          {/* Community Feedback Link */}
+          <div className="mt-20 text-center">
+            <div className="inline-flex flex-col items-center p-8 rounded-3xl bg-primary/5 border border-primary/10">
+              <h3 className="font-bengali text-2xl font-bold text-foreground mb-4">আপনিও আমাদের অংশ হতে চান?</h3>
+              <p className="font-bengali text-muted-foreground mb-6">আপনার অভিজ্ঞতা আমাদের সাথে এবং সম্প্রদায়ের সাথে শেয়ার করুন।</p>
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="flex items-center gap-3 px-8 py-4 bg-primary text-white rounded-xl font-bengali font-bold shadow-xl hover:scale-105 hover:bg-primary/90 transition-all"
+              >
+                <Icon name="ChatBubbleLeftRightIcon" size={24} />
+                আপনার মতামত দিন
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
+      <FeedbackModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onSuccess={fetchData}
+      />
+
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-br from-primary via-secondary to-primary">
+      <section className="py-16 bg-linear-to-br from-primary via-secondary to-primary">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="font-bengali text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
               মানসম্পন্ন চা অভিজ্ঞতা নিন
             </h2>
-            <p className="font-heading text-xl text-primary-foreground/90 mb-8">
-              Experience Quality Tea Today
-            </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link
                 href="/interactive-menu-hub"

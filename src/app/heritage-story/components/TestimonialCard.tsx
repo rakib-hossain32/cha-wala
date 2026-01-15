@@ -1,5 +1,5 @@
-import AppImage from "@/components/ui/AppImage";
-import Icon from "@/components/ui/AppIcon";
+﻿import AppImage from "../../../components/ui/AppImage";
+import Icon from "../../../components/ui/AppIcon";
 
 interface TestimonialCardProps {
   name: string;
@@ -38,11 +38,9 @@ const TestimonialCard = ({
           <h4 className="text-xl font-bold font-bengali text-foreground">
             {nameBengali}
           </h4>
-          <p className="text-base font-heading text-muted-foreground">{name}</p>
           <p className="text-sm font-bengali text-muted-foreground mt-1">
             {roleBengali}
           </p>
-          <p className="text-xs font-body text-muted-foreground">{role}</p>
         </div>
       </div>
 
@@ -74,9 +72,6 @@ const TestimonialCard = ({
       <blockquote className="space-y-3">
         <p className="text-base font-bengali text-foreground leading-relaxed italic">
           "{testimonialBengali}"
-        </p>
-        <p className="text-sm font-body text-muted-foreground leading-relaxed italic">
-          "{testimonial}"
         </p>
       </blockquote>
     </div>

@@ -1,4 +1,4 @@
-interface PreparationStepProps {
+﻿interface PreparationStepProps {
   step: number;
   titleEnglish: string;
   titleBengali: string;
@@ -35,23 +35,16 @@ export default function PreparationStep({
                 <h3 className="font-bengali text-lg font-semibold text-foreground">
                   {titleBengali}
                 </h3>
-                <p className="font-heading text-sm text-muted-foreground">
-                  {titleEnglish}
-                </p>
               </div>
             </div>
             <div className="text-right">
               <p className="font-bengali text-sm font-semibold text-primary">
                 {timeBengali}
               </p>
-              <p className="font-body text-xs text-muted-foreground">{time}</p>
             </div>
           </div>
           <p className="font-bengali text-sm text-foreground/80 mb-2">
             {descriptionBengali}
-          </p>
-          <p className="font-body text-xs text-muted-foreground">
-            {description}
           </p>
         </div>
       </div>

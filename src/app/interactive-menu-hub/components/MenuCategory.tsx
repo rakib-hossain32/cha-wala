@@ -1,4 +1,4 @@
-interface MenuCategoryProps {
+﻿interface MenuCategoryProps {
   category: string;
   categoryBengali: string;
   isActive: boolean;
@@ -15,7 +15,7 @@ export default function MenuCategory({
     <button
       onClick={onClick}
       className={`
-        flex flex-col items-center px-6 py-3 rounded-lg cultural-transition
+        flex flex-col items-center px-6 py-3 rounded-lg cultural-transition cursor-pointer
         ${
           isActive
             ? "bg-primary text-primary-foreground shadow-warm"
@@ -26,7 +26,6 @@ export default function MenuCategory({
       <span className="font-bengali font-semibold text-base">
         {categoryBengali}
       </span>
-      <span className="text-xs font-heading opacity-80">{category}</span>
     </button>
   );
 }

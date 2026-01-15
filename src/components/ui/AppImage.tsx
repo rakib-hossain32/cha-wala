@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import Image from "next/image";
@@ -39,6 +39,13 @@ function AppImage({
   const [imageSrc, setImageSrc] = useState(src);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+
+  // Sync state with src prop when it changes
+  React.useEffect(() => {
+    setImageSrc(src);
+    setHasError(false);
+    setIsLoading(true);
+  }, [src]);
 
   // More reliable external URL detection
   const isExternal =

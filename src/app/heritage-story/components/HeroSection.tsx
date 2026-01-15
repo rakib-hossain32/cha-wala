@@ -1,4 +1,5 @@
-import AppImage from "@/components/ui/AppImage";
+﻿import AppImage from "../../../components/ui/AppImage";
+
 
 interface HeroSectionProps {
   title: string;
@@ -36,14 +37,8 @@ const HeroSection = ({
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold font-bengali text-primary-foreground leading-tight">
             {titleBengali}
           </h1>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-semibold text-primary-foreground/90">
-            {title}
-          </h2>
           <p className="text-xl md:text-2xl font-bengali text-primary-foreground/80 max-w-2xl mx-auto leading-relaxed">
             {subtitleBengali}
-          </p>
-          <p className="text-lg md:text-xl font-body text-primary-foreground/70 max-w-2xl mx-auto">
-            {subtitle}
           </p>
         </div>
 

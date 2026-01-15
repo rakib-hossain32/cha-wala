@@ -1,4 +1,5 @@
-import Icon from "@/components/ui/AppIcon";
+﻿
+import Icon from "../../../components/ui/AppIcon";
 
 interface PreparationStepProps {
   stepNumber: number;
@@ -32,14 +33,8 @@ const PreparationStep = ({
           <h4 className="text-xl font-bold font-bengali text-foreground">
             {titleBengali}
           </h4>
-          <p className="text-base font-heading font-semibold text-muted-foreground">
-            {title}
-          </p>
           <p className="text-sm font-bengali text-foreground leading-relaxed">
             {descriptionBengali}
-          </p>
-          <p className="text-xs font-body text-muted-foreground leading-relaxed">
-            {description}
           </p>
         </div>
       </div>

@@ -1,5 +1,5 @@
-import AppImage from "@/components/ui/AppImage";
-import Icon from "@/components/ui/AppIcon";
+﻿import AppImage from "../../../components/ui/AppImage";
+import Icon from "../../../components/ui/AppIcon";
 
 interface TimelineItemProps {
   year: string;
@@ -38,7 +38,6 @@ const TimelineItem = ({
           />
           <div className="absolute top-4 left-4 bg-primary text-primary-foreground px-6 py-3 rounded-lg shadow-warm-sm">
             <p className="text-2xl font-bold font-bengali">{yearBengali}</p>
-            <p className="text-lg font-heading">{year}</p>
           </div>
         </div>
       </div>
@@ -51,16 +50,10 @@ const TimelineItem = ({
             <h3 className="text-3xl font-bold font-bengali text-foreground">
               {titleBengali}
             </h3>
-            <h4 className="text-xl font-heading font-semibold text-muted-foreground">
-              {title}
-            </h4>
           </div>
         </div>
         <p className="text-lg font-bengali text-foreground leading-relaxed">
           {descriptionBengali}
-        </p>
-        <p className="text-base font-body text-muted-foreground leading-relaxed">
-          {description}
         </p>
       </div>
     </div>

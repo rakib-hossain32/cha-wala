@@ -1,4 +1,4 @@
-import Icon from "@/components/ui/AppIcon";
+﻿import Icon from "../../../components/ui/AppIcon";
 
 interface Instruction {
   step: number;
@@ -22,7 +22,7 @@ export default function OrderInstructions({
         কীভাবে অর্ডার করবেন
       </h3>
       <p className="text-sm font-heading text-muted-foreground mb-6">
-        How to Order
+        অর্ডার করার ধাপসমূহ
       </p>
 
       <div className="space-y-6">
@@ -38,14 +38,14 @@ export default function OrderInstructions({
             <div className="flex-1">
               <div className="flex items-center space-x-2 mb-2">
                 <span className="text-sm font-bold text-primary">
-                  Step {instruction.step}
+                  ধাপ {instruction.step}
                 </span>
               </div>
               <h4 className="font-bengali font-semibold text-foreground mb-1">
                 {instruction.titleBengali}
               </h4>
               <p className="text-sm font-heading text-muted-foreground mb-2">
-                {instruction.title}
+                {instruction.titleBengali}
               </p>
               <p className="text-sm text-foreground">
                 {instruction.descriptionBengali}

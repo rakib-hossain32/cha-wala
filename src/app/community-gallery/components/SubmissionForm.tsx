@@ -1,7 +1,7 @@
-"use client";
-
+﻿// Updated SubmissionForm with Rating and Role support
 import { useState } from "react";
-import Icon from "@/components/ui/AppIcon";
+
+import Icon from "../../../components/ui/AppIcon";
 
 interface SubmissionFormProps {
   isOpen: boolean;
@@ -9,13 +9,15 @@ interface SubmissionFormProps {
   onSubmit: (data: SubmissionData) => void;
 }
 
-interface SubmissionData {
+export interface SubmissionData {
   name: string;
   email: string;
   category: string;
   title: string;
   description: string;
   imageUrl: string;
+  role?: string; // New field for testimonials
+  rating?: number; // New field for testimonials
 }
 
 const SubmissionForm = ({ isOpen, onClose, onSubmit }: SubmissionFormProps) => {
@@ -26,6 +28,8 @@ const SubmissionForm = ({ isOpen, onClose, onSubmit }: SubmissionFormProps) => {
     title: "",
     description: "",
     imageUrl: "",
+    role: "Customer",
+    rating: 5,
   });
 
   const [errors, setErrors] = useState<Partial<SubmissionData>>({});
@@ -33,21 +37,27 @@ const SubmissionForm = ({ isOpen, onClose, onSubmit }: SubmissionFormProps) => {
   if (!isOpen) return null;
 
   const categories = [
-    { value: "moments", label: "মুহূর্ত", labelEn: "Moments" },
-    { value: "testimonials", label: "প্রশংসাপত্র", labelEn: "Testimonials" },
-    { value: "events", label: "ইভেন্ট", labelEn: "Events" },
-    { value: "culture", label: "সংস্কৃতি", labelEn: "Culture" },
+    { value: "moments", label: "মুহূর্ত" },
+    { value: "testimonials", label: "প্রশংসাপত্র" },
+    { value: "events", label: "ইভেন্ট" },
+    { value: "culture", label: "সংস্কৃতি" },
   ];
 
   const validateForm = (): boolean => {
     const newErrors: Partial<SubmissionData> = {};
 
-    if (!formData.name.trim()) newErrors.name = "Name is required";
-    if (!formData.email.trim()) newErrors.email = "Email is required";
-    if (!formData.title.trim()) newErrors.title = "Title is required";
-    if (!formData.description.trim())
-      newErrors.description = "Description is required";
-    if (!formData.imageUrl.trim()) newErrors.imageUrl = "Image URL is required";
+    if (!formData.name.trim()) newErrors.name = "নাম আবশ্যক";
+    if (!formData.email.trim()) newErrors.email = "ইমেইল আবশ্যক";
+
+    // For testimonials, title functions as summary/headline, but description is the main text
+    // We can keep title required or optional depending on design, keeping it required for consistency
+    if (!formData.title.trim()) newErrors.title = "শিরোনাম আবশ্যক";
+
+    if (!formData.description.trim()) newErrors.description = "বর্ণনা আবশ্যক";
+
+    // Image URL might be optional for testimonials if we use initials or placeholders
+    // But keeping it required for now as per original design
+    if (!formData.imageUrl.trim()) newErrors.imageUrl = "ছবির লিংক আবশ্যক";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -64,12 +74,17 @@ const SubmissionForm = ({ isOpen, onClose, onSubmit }: SubmissionFormProps) => {
         title: "",
         description: "",
         imageUrl: "",
+        role: "Customer",
+        rating: 5,
       });
       onClose();
     }
   };
 
-  const handleChange = (field: keyof SubmissionData, value: string) => {
+  const handleChange = (
+    field: keyof SubmissionData,
+    value: string | number
+  ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }));
@@ -86,7 +101,7 @@ const SubmissionForm = ({ isOpen, onClose, onSubmit }: SubmissionFormProps) => {
               আপনার গল্প শেয়ার করুন
             </h3>
             <p className="font-heading text-sm text-muted-foreground">
-              Share Your Story with Our Community
+              আমাদের সম্প্রদায়ের সাথে আপনার গল্প শেয়ার করুন
             </p>
           </div>
           <button
@@ -102,7 +117,7 @@ const SubmissionForm = ({ isOpen, onClose, onSubmit }: SubmissionFormProps) => {
           {/* Name */}
           <div>
             <label className="font-bengali text-sm font-semibold text-foreground mb-2 block">
-              নাম • Name *
+              নাম *
             </label>
             <input
               type="text"
@@ -113,7 +128,7 @@ const SubmissionForm = ({ isOpen, onClose, onSubmit }: SubmissionFormProps) => {
                 focus:outline-none focus:ring-2 focus:ring-primary cultural-transition
                 ${errors.name ? "border-error" : "border-border"}
               `}
-              placeholder="Enter your name"
+              placeholder="আপনার নাম লিখুন"
             />
             {errors.name && (
               <p className="mt-1 text-xs text-error font-heading">
@@ -125,7 +140,7 @@ const SubmissionForm = ({ isOpen, onClose, onSubmit }: SubmissionFormProps) => {
           {/* Email */}
           <div>
             <label className="font-bengali text-sm font-semibold text-foreground mb-2 block">
-              ইমেইল • Email *
+              ইমেইল *
             </label>
             <input
               type="email"
@@ -136,7 +151,7 @@ const SubmissionForm = ({ isOpen, onClose, onSubmit }: SubmissionFormProps) => {
                 focus:outline-none focus:ring-2 focus:ring-primary cultural-transition
                 ${errors.email ? "border-error" : "border-border"}
               `}
-              placeholder="your.email@example.com"
+              placeholder="আপনার ইমেইল লিখুন"
             />
             {errors.email && (
               <p className="mt-1 text-xs text-error font-heading">
@@ -148,7 +163,7 @@ const SubmissionForm = ({ isOpen, onClose, onSubmit }: SubmissionFormProps) => {
           {/* Category */}
           <div>
             <label className="font-bengali text-sm font-semibold text-foreground mb-2 block">
-              বিভাগ • Category *
+              বিভাগ *
             </label>
             <select
               value={formData.category}
@@ -157,16 +172,54 @@ const SubmissionForm = ({ isOpen, onClose, onSubmit }: SubmissionFormProps) => {
             >
               {categories.map((cat) => (
                 <option key={cat.value} value={cat.value}>
-                  {cat.label} • {cat.labelEn}
+                  {cat.label}
                 </option>
               ))}
             </select>
           </div>
 
-          {/* Title */}
+          {/* Dynamic Fields for Testimonials */}
+          {formData.category === "testimonials" && (
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="font-bengali text-sm font-semibold text-foreground mb-2 block">
+                  ভূমিকা
+                </label>
+                <input
+                  type="text"
+                  value={formData.role || ""}
+                  onChange={(e) => handleChange("role", e.target.value)}
+                  className="w-full px-4 py-3 bg-background border border-border rounded-lg font-heading text-foreground focus:outline-none focus:ring-2 focus:ring-primary cultural-transition"
+                  placeholder="উদাহরণ: ছাত্র, খাদ্যপ্রেমী"
+                />
+              </div>
+              <div>
+                <label className="font-bengali text-sm font-semibold text-foreground mb-2 block">
+                  রেটিং (1-5)
+                </label>
+                <select
+                  value={formData.rating || 5}
+                  onChange={(e) =>
+                    handleChange("rating", parseInt(e.target.value))
+                  }
+                  className="w-full px-4 py-3 bg-background border border-border rounded-lg font-heading text-foreground focus:outline-none focus:ring-2 focus:ring-primary cultural-transition"
+                >
+                  <option value={5}>⭐⭐⭐⭐⭐ (5)</option>
+                  <option value={4}>⭐⭐⭐⭐ (4)</option>
+                  <option value={3}>⭐⭐⭐ (3)</option>
+                  <option value={2}>⭐⭐ (2)</option>
+                  <option value={1}>⭐ (1)</option>
+                </select>
+              </div>
+            </div>
+          )}
+
+          {/* Title - Contextual label */}
           <div>
             <label className="font-bengali text-sm font-semibold text-foreground mb-2 block">
-              শিরোনাম • Title *
+              {formData.category === "testimonials"
+                ? "শিরোনাম / সারাংশ *"
+                : "শিরোনাম *"}
             </label>
             <input
               type="text"
@@ -177,7 +230,11 @@ const SubmissionForm = ({ isOpen, onClose, onSubmit }: SubmissionFormProps) => {
                 focus:outline-none focus:ring-2 focus:ring-primary cultural-transition
                 ${errors.title ? "border-error" : "border-border"}
               `}
-              placeholder="Give your story a title"
+              placeholder={
+                formData.category === "testimonials"
+                  ? "আপনার মন্তব্যের সারাংশ লিখুন"
+                  : "আপনার কাহিনীর শিরোনাম লিখুন"
+              }
             />
             {errors.title && (
               <p className="mt-1 text-xs text-error font-heading">
@@ -189,7 +246,9 @@ const SubmissionForm = ({ isOpen, onClose, onSubmit }: SubmissionFormProps) => {
           {/* Description */}
           <div>
             <label className="font-bengali text-sm font-semibold text-foreground mb-2 block">
-              বর্ণনা • Description *
+              {formData.category === "testimonials"
+                ? "আপনার মতামত *"
+                : "বর্ণনা *"}
             </label>
             <textarea
               value={formData.description}
@@ -200,7 +259,11 @@ const SubmissionForm = ({ isOpen, onClose, onSubmit }: SubmissionFormProps) => {
                 focus:outline-none focus:ring-2 focus:ring-primary cultural-transition resize-none
                 ${errors.description ? "border-error" : "border-border"}
               `}
-              placeholder="Share your experience with our community..."
+              placeholder={
+                formData.category === "testimonials"
+                  ? "আপনি কী পছন্দ করেছেন তা বলুন..."
+                  : "আপনার অভিজ্ঞতা আমাদের সঙ্গে শেয়ার করুন..."
+              }
             />
             {errors.description && (
               <p className="mt-1 text-xs text-error font-heading">
@@ -212,7 +275,9 @@ const SubmissionForm = ({ isOpen, onClose, onSubmit }: SubmissionFormProps) => {
           {/* Image URL */}
           <div>
             <label className="font-bengali text-sm font-semibold text-foreground mb-2 block">
-              ছবির URL • Image URL *
+              {formData.category === "testimonials"
+                ? "আপনার ছবি (লিংক) *"
+                : "ছবির লিংক *"}
             </label>
             <input
               type="url"
@@ -223,7 +288,7 @@ const SubmissionForm = ({ isOpen, onClose, onSubmit }: SubmissionFormProps) => {
                 focus:outline-none focus:ring-2 focus:ring-primary cultural-transition
                 ${errors.imageUrl ? "border-error" : "border-border"}
               `}
-              placeholder="https://example.com/image.jpg"
+              placeholder="ছবির লিংক দিন (https://example.com/image.jpg)"
             />
             {errors.imageUrl && (
               <p className="mt-1 text-xs text-error font-heading">
@@ -240,7 +305,6 @@ const SubmissionForm = ({ isOpen, onClose, onSubmit }: SubmissionFormProps) => {
             >
               <Icon name="PaperAirplaneIcon" size={20} />
               <span className="font-bengali">জমা দিন</span>
-              <span>Submit</span>
             </button>
 
             <button
@@ -248,7 +312,7 @@ const SubmissionForm = ({ isOpen, onClose, onSubmit }: SubmissionFormProps) => {
               onClick={onClose}
               className="px-6 py-3 bg-muted text-foreground rounded-lg font-heading font-semibold cultural-transition hover:bg-muted/80"
             >
-              Cancel
+              বাতিল
             </button>
           </div>
         </form>

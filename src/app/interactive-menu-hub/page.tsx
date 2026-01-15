@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
-import Header from "@/components/common/Header";
+﻿import type { Metadata } from "next";
+
 import MenuInteractive from "./components/MenuInteractive";
 
 export const metadata: Metadata = {
-  title: "Interactive Menu Hub - Chai Token",
+  title: "মেনু - চা ওয়ালা",
   description:
-    "Explore our authentic collection of traditional Bengali chai, snacks, and sweets. Smart ordering system with real-time cart management and token-based service for seamless tea house experience.",
+    "ঐতিহ্যবাহী বাংলার চা, নাস্তা এবং মিষ্টির খাঁটি সংগ্রহ অন্বেষণ করুন। স্মার্ট অর্ডারিং সিস্টেম এবং রিয়েল-টাইম কার্ট ম্যানেজমেন্ট সহ নিরবচ্ছিন্ন চা ঘরের অভিজ্ঞতা।",
 };
 
 export default function InteractiveMenuHubPage() {
   return (
     <>
-      <Header />
+   
       <MenuInteractive />
     </>
   );

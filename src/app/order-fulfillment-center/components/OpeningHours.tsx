@@ -1,4 +1,4 @@
-import Icon from "@/components/ui/AppIcon";
+﻿import Icon from "../../../components/ui/AppIcon";
 
 interface DaySchedule {
   day: string;
@@ -21,7 +21,7 @@ export default function OpeningHours({ schedule }: OpeningHoursProps) {
             খোলার সময়
           </h3>
           <p className="text-sm font-heading text-muted-foreground">
-            Opening Hours
+            খোলার সময়
           </p>
         </div>
       </div>
@@ -49,7 +49,7 @@ export default function OpeningHours({ schedule }: OpeningHoursProps) {
                     : "text-muted-foreground"
                 }`}
               >
-                {day.day}
+                {/* English day name removed per language change */}
               </p>
             </div>
             <span

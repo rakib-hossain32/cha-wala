@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
-import Header from "@/components/common/Header";
+﻿import type { Metadata } from "next";
+
 import HeritageInteractive from "./components/HeritageInteractive";
 
 export const metadata: Metadata = {
-  title: "Heritage Story - Chai Token",
+  title: "ঐতিহ্য - চা ওয়ালা",
   description:
-    "Discover the rich cultural heritage of Bengali tea traditions and how Chai Token preserves authentic chai-making methods while embracing modern innovation.",
+    "বাংলার চা ঐতিহ্যের সমৃদ্ধ সাংস্কৃতিক ইতিহাস আবিষ্কার করুন এবং কীভাবে চা ওয়ালা আধুনিক উদ্ভাবনের সাথে খাঁটি চা তৈরির পদ্ধতি সংরক্ষণ করে।",
 };
 
 export default function HeritageStoryPage() {
   return (
     <main className="min-h-screen">
-      <Header />
+    
       <HeritageInteractive />
     </main>
   );

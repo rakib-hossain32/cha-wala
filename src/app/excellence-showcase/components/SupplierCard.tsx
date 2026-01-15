@@ -1,4 +1,5 @@
-import AppImage from "@/components/ui/AppImage";
+﻿import AppImage from "../../../components/ui/AppImage";
+
 
 interface SupplierCardProps {
   name: string;
@@ -41,17 +42,11 @@ export default function SupplierCard({
         <h3 className="font-bengali text-xl font-semibold text-foreground mb-1">
           {nameBengali}
         </h3>
-        <p className="font-heading text-sm text-muted-foreground mb-3">
-          {name}
-        </p>
         <div className="flex items-start space-x-2 mb-3">
           <span className="text-lg">📍</span>
           <div>
             <p className="font-bengali text-sm text-foreground">
               {locationBengali}
-            </p>
-            <p className="font-body text-xs text-muted-foreground">
-              {location}
             </p>
           </div>
         </div>
@@ -60,9 +55,6 @@ export default function SupplierCard({
           <div>
             <p className="font-bengali text-sm text-foreground">
               {specialtyBengali}
-            </p>
-            <p className="font-body text-xs text-muted-foreground">
-              {specialty}
             </p>
           </div>
         </div>

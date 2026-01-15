@@ -1,7 +1,6 @@
-"use client";
+﻿"use client";
 
-import Icon from "@/components/ui/AppIcon";
-
+import Icon from "../../../components/ui/AppIcon";
 interface Quote {
   id: number;
   quote: string;
@@ -28,12 +27,9 @@ const CulturalQuote = ({ quote }: CulturalQuoteProps) => {
 
       {/* Quote Content */}
       <div className="relative z-10">
-        <blockquote className="mb-6">
+        <blockquote className="mb-6 font-bengali">
           <p className="font-bengali text-xl md:text-2xl font-bold text-foreground leading-relaxed mb-4 accent-text">
             "{quote.quoteBengali}"
-          </p>
-          <p className="font-heading text-base md:text-lg text-muted-foreground italic leading-relaxed">
-            "{quote.quote}"
           </p>
         </blockquote>
 
@@ -43,9 +39,6 @@ const CulturalQuote = ({ quote }: CulturalQuoteProps) => {
           <div>
             <p className="font-bengali text-base font-semibold text-foreground">
               — {quote.authorBengali}
-            </p>
-            <p className="font-heading text-sm text-muted-foreground">
-              — {quote.author}
             </p>
           </div>
         </div>

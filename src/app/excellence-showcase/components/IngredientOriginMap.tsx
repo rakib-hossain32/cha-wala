@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 
@@ -41,9 +41,6 @@ export default function IngredientOriginMap({
         <h3 className="font-bengali text-xl font-semibold text-foreground mb-1">
           উপাদানের উৎস মানচিত্র
         </h3>
-        <p className="font-heading text-sm text-muted-foreground">
-          Ingredient Origin Map
-        </p>
       </div>
       <div className="grid lg:grid-cols-3 gap-6 p-6">
         <div className="lg:col-span-2">
@@ -76,14 +73,8 @@ export default function IngredientOriginMap({
                   <h4 className="font-bengali text-sm font-semibold mb-1">
                     {location.nameBengali}
                   </h4>
-                  <p className="font-heading text-xs opacity-80 mb-2">
-                    {location.name}
-                  </p>
                   <p className="font-bengali text-xs opacity-90">
                     {location.ingredientBengali}
-                  </p>
-                  <p className="font-body text-xs opacity-70">
-                    {location.ingredient}
                   </p>
                 </div>
               </div>

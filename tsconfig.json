@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "baseUrl": ".",
-    "ignoreDeprecations": "6.0",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -30,8 +28,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts",
-    "next.config.js"
+    "**/*.mts"
   ],
   "exclude": ["node_modules"]
 }

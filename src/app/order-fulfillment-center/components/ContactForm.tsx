@@ -1,7 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
-import Icon from "@/components/ui/AppIcon";
+
+import Icon from "../../../components/ui/AppIcon";
 
 interface FormData {
   name: string;
@@ -52,17 +53,17 @@ export default function ContactForm() {
     const newErrors: FormErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = "নাম প্রয়োজন / Name is required";
+      newErrors.name = "নাম প্রয়োজন";
     }
 
     if (!formData.phone.trim()) {
-      newErrors.phone = "ফোন নম্বর প্রয়োজন / Phone is required";
+      newErrors.phone = "ফোন নম্বর প্রয়োজন";
     } else if (!/^[0-9]{11}$/.test(formData.phone)) {
-      newErrors.phone = "সঠিক ফোন নম্বর দিন / Valid 11-digit phone required";
+      newErrors.phone = "সঠিক ১১ ডিজিটের ফোন নম্বর দিন";
     }
 
     if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "সঠিক ইমেইল দিন / Valid email required";
+      newErrors.email = "সঠিক ইমেইল দিন";
     }
 
     setErrors(newErrors);
@@ -103,7 +104,7 @@ export default function ContactForm() {
         যোগাযোগ করুন
       </h3>
       <p className="text-sm font-heading text-muted-foreground mb-6">
-        Contact Us
+        আমাদের সাথে যোগাযোগ করুন
       </p>
 
       {submitSuccess && (
@@ -126,7 +127,7 @@ export default function ContactForm() {
             value={formData.name}
             onChange={handleChange}
             className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground"
-            placeholder="আপনার নাম লিখুন / Enter your name"
+            placeholder="আপনার নাম লিখুন"
           />
           {errors.name && (
             <p className="mt-1 text-sm text-destructive">{errors.name}</p>
@@ -160,7 +161,7 @@ export default function ContactForm() {
             value={formData.email}
             onChange={handleChange}
             className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground"
-            placeholder="your@email.com"
+            placeholder="আপনার ইমেইল@example.com"
           />
           {errors.email && (
             <p className="mt-1 text-sm text-destructive">{errors.email}</p>
@@ -177,7 +178,7 @@ export default function ContactForm() {
             onChange={handleChange}
             rows={4}
             className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground resize-none"
-            placeholder="আপনার বার্তা লিখুন / Write your message"
+            placeholder="আপনার বার্তা লিখুন"
           />
         </div>
 

@@ -1,4 +1,4 @@
-import Icon from "@/components/ui/AppIcon";
+﻿import Icon from "../../../components/ui/AppIcon";
 
 interface LocationInfoProps {
   address: string;
@@ -24,7 +24,7 @@ export default function LocationInfo({
           width="100%"
           height="100%"
           loading="lazy"
-          title="Chai Token Location"
+          title="চা ওয়ালা লোকেশন"
           referrerPolicy="no-referrer-when-downgrade"
           src={`https://www.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`}
           className="border-0"
@@ -41,9 +41,6 @@ export default function LocationInfo({
           <div>
             <p className="font-bengali font-semibold text-foreground">
               {addressBengali}
-            </p>
-            <p className="text-sm font-heading text-muted-foreground mt-1">
-              {address}
             </p>
           </div>
         </div>

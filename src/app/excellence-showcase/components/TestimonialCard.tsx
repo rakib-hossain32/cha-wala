@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
-import AppImage from "@/components/ui/AppImage";
-import Icon from "@/components/ui/AppIcon";
+import AppImage from "../../../components/ui/AppImage";
+import Icon from "../../../components/ui/AppIcon";
 
 interface TestimonialCardProps {
   name: string;
@@ -66,13 +66,9 @@ export default function TestimonialCard({
           <h4 className="font-bengali text-lg font-semibold text-foreground">
             {nameBengali}
           </h4>
-          <p className="font-heading text-sm text-muted-foreground mb-2">
-            {name}
-          </p>
           <p className="font-bengali text-xs text-foreground/70">
             {roleBengali}
           </p>
-          <p className="font-body text-xs text-muted-foreground">{role}</p>
         </div>
       </div>
       <div className="flex items-center space-x-1 mb-3">
@@ -90,9 +86,6 @@ export default function TestimonialCard({
       </div>
       <p className="font-bengali text-sm text-foreground/80 mb-2 leading-relaxed">
         {testimonialBengali}
-      </p>
-      <p className="font-body text-xs text-muted-foreground leading-relaxed">
-        {testimonial}
       </p>
     </div>
   );
