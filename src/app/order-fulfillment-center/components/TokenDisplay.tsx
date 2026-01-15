@@ -1,11 +1,7 @@
-﻿
-"use client";
-
-import { useRef } from "react";
+﻿import { useRef, useState } from "react";
 import Icon from "../../../components/ui/AppIcon";
-import { toPng, toJpeg } from "html-to-image";
-import jsPDF from "jspdf";
-import { QRCodeSVG } from "qrcode.react";
+import { QRCodeSVG, QRCodeCanvas } from "qrcode.react";
+import { saveAs } from "file-saver";
 
 interface CartItem {
   id: number | string;
@@ -33,37 +29,42 @@ export default function TokenDisplay({
   customerName = "Customer"
 }: TokenDisplayProps) {
   const ticketRef = useRef<HTMLDivElement>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const downloadTicket = async () => {
-    if (ticketRef.current) {
-      try {
-        // Using toJpeg with lower pixelRatio for significantly smaller PDF size
-        const dataUrl = await toJpeg(ticketRef.current, {
-          quality: 0.8,
-          pixelRatio: 2, 
-          backgroundColor: "#ffffff",
-          style: {
-            transform: 'scale(1)',
-            boxShadow: 'none'
-          }
-        });
+    if (!ticketRef.current) return;
+    setIsGenerating(true);
+    try {
+      const { toJpeg } = await import("html-to-image");
+      const { jsPDF } = await import("jspdf");
 
-        // Calculate dimensions
-        const imgWidth = 80; // mm
-        const imgHeight = (ticketRef.current.offsetHeight * imgWidth) / ticketRef.current.offsetWidth;
+      // JPEG is key for small size (100-200KB)
+      // pixelRatio 2 is sharp enough for mobile/print without being heavy
+      const dataUrl = await toJpeg(ticketRef.current, { 
+        quality: 0.9, 
+        pixelRatio: 2.5, 
+        backgroundColor: '#ffffff'
+      });
 
-        const pdf = new jsPDF({
-          orientation: 'portrait',
-          unit: 'mm',
-          format: [imgWidth, imgHeight],
-          compress: true 
-        });
+      const img = new Image();
+      img.src = dataUrl;
+      await new Promise((resolve) => (img.onload = resolve));
 
-        pdf.addImage(dataUrl, "JPEG", 0, 0, imgWidth, imgHeight, undefined, 'FAST');
-        pdf.save(`ChaWala-Token-${tokenNumber}.pdf`);
-      } catch (error) {
-        console.error("PDF generation failed", error);
-      }
+      const pdfWidth = 320;
+      const pdfHeight = (img.height * pdfWidth) / img.width;
+
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "pt",
+        format: [pdfWidth, pdfHeight]
+      });
+
+      pdf.addImage(dataUrl, "JPEG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save(`ChaWala-Token-${tokenNumber}.pdf`);
+    } catch (error) {
+      console.error("PDF generation failed", error);
+    } finally {
+      setIsGenerating(false);
     }
   };
 
@@ -71,7 +72,6 @@ export default function TokenDisplay({
     if (ticketRef.current) {
         const printWindow = window.open('', '_blank');
         if (printWindow) {
-            // Get relevant styles from the document
             const styles = Array.from(document.styleSheets)
                 .map(sheet => {
                     try {
@@ -101,7 +101,6 @@ export default function TokenDisplay({
                             #print-container {
                                 width: 380px;
                             }
-                            /* Ensure gradients print */
                             .bg-white { background-color: white !important; }
                         </style>
                     </head>
@@ -244,7 +243,7 @@ export default function TokenDisplay({
                 <div className="relative p-4 bg-white rounded-2xl border border-white/80 shadow-md overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-primary/20 to-transparent"></div>
                     <QRCodeSVG 
-                        value={`TOKEN:${tokenNumber}`} 
+                        value={tokenNumber} 
                         size={70} 
                         level="H" 
                         fgColor="#2a1206"
@@ -282,16 +281,33 @@ export default function TokenDisplay({
         </div>
       </div>
 
+      {/* Hidden QR for PDF */}
+      <div style={{ display: 'none' }}>
+        <QRCodeCanvas 
+            id="hidden-qr-canvas"
+            value={tokenNumber} 
+            size={200}
+            level="H"
+        />
+      </div>
+
       {/* Action Buttons - Beautifully Floating */}
       <div className=" space-x-3 md:space-x-10 mt-3">
           <button 
             onClick={downloadTicket}
-            className="group relative bg-primary text-white p-3 rounded-3xl font-bengali font-black text-lg shadow-2xl shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-1 active:scale-95 transition-all overflow-hidden"
+            disabled={isGenerating}
+            className={`group relative bg-primary text-white p-3 rounded-3xl font-bengali font-black text-lg shadow-2xl shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-1 active:scale-95 transition-all overflow-hidden ${isGenerating ? 'opacity-70 outline-none' : ''}`}
           >
             <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
             <div className="flex  items-center gap-2 relative z-10">
-                <Icon name="ArrowDownTrayIcon" size={24} />
-                <span className="text-xs uppercase tracking-widest opacity-80 font-heading">ডাউনলোড করুন</span>
+                {isGenerating ? (
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent animate-spin rounded-full"></div>
+                ) : (
+                  <Icon name="ArrowDownTrayIcon" size={24} />
+                )}
+                <span className="text-xs uppercase tracking-widest opacity-80 font-heading">
+                  {isGenerating ? 'জেনারেট হচ্ছে...' : 'ডাউনলোড করুন'}
+                </span>
             </div>
           </button>
           
